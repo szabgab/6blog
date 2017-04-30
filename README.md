@@ -39,12 +39,12 @@ Users:
 Posts:
 --------
   title:
-  basename (derived automatically from the title) - does not change once the article was published even if the title is changed.
+  basename: (derived automatically from the title) - does not change once the article was published even if the title is changes.
+  abstract: (free text, will be shown on the main page and other "index" pages.
+  body: (free text)
   format: (of abstract and body)
       "HTML"        (limit tags to a set of tags defined by the site admin)
       "Markdown"
-  abstract (free text, will be shown on the main page)
-  body (free text)
   tags: a comma separated list of expressions
   Status:
     Unpublished (draft)
@@ -74,10 +74,11 @@ Comments:
 ----------
 Either using external engine (e.g. Disqus) or internal commenting engine for registered users.
 In case of internal commenting we have the following about each comment:
-   text
-   (date)
-   (user)
-   (reply-to another comment)
+   ID: Unique id of the comment.
+   text: (free text)
+   date:
+   user: The ID of the user who creates this comment.
+   reply-to: The ID of another comment. (optional)
 
 Images and other non-html files
 -------------------------------
@@ -102,15 +103,11 @@ Roles
 * Commenter     - a user who can only comment
 * Author        - a user who can write articles
 * Publisher     - a user who can publish articles
-* Administrator - Can unpublish articles of 
+* Administrator - can unpublish articles.
 
 
 Administration
 ------------------
-A command line interface that can 
-When the system is installed we can designate one or more 
-
-
-
-
+A command line interface that can be used to (re)set the password of the administrator.
+When the system is installed we can designate one or more users as administrators.
 
