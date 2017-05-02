@@ -106,6 +106,12 @@ Roles
 * Administrator - can unpublish articles.
 
 
+Text-Editor
+-------------
+* In the basic version of this application the editor will be plain HTML5 without any JavaScript. The user will need to press "Preview" that will send the content to the server that will redisplay the editor and the formatted text. During this time the draft will be saved on the server.
+* In the more advanced version we can add some JaveScript code that will regularily send the current version of the text to the server, where the server code can save the draft and can send back the formatted version of the article.
+* Wysiwyg editor (There are lot's of implementation out there. One need to be selected and hooked up.)
+
 Administration
 ------------------
 A command line interface that can be used to (re)set the password of the administrator.
