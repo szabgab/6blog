@@ -4,6 +4,23 @@ Blog engine written in Perl 6
 Description of the planned system
 =================================
 
+Setup
+-------
+* Docker image that contains everything needed to run the blog engine. An easy way to upgrade the engine.
+* Linux: Unizp, run a shell script that will install everything needed. (Rakudo Star, the Perl 6 modules, the engine)
+* Windows: Manual instructions to install Rakudo Star, the prerequisites, and the engine.
+
+Administration
+------------------
+Both a command line interface and a web interface for the following actions:
+
+* Reset password of any user.
+* Set any user as "administrator".
+* Remove the "administrator" bit from any user.
+* Mark a blog post as "spam" that will hide the post from the world. It will also hide all the comments already added.
+* Mark a comment as "spam" that will hide the comment. If the comment already have replies those will be hidden as well.
+
+
 Modes of working:
 -----------------
 1) Sinlge author.
@@ -112,8 +129,4 @@ Text-Editor
 * In the more advanced version we can add some JaveScript code that will regularily send the current version of the text to the server, where the server code can save the draft and can send back the formatted version of the article.
 * Wysiwyg editor (There are lot's of implementation out there. One need to be selected and hooked up.)
 
-Administration
-------------------
-A command line interface that can be used to (re)set the password of the administrator.
-When the system is installed we can designate one or more users as administrators.
 
