@@ -130,3 +130,7 @@ Text-Editor
 * Wysiwyg editor (There are lot's of implementation out there. One need to be selected and hooked up.)
 
 
+Development
+------------
+perl6 -I../Bailador/lib ../Bailador/bin/bailador bin/app.pl
+
