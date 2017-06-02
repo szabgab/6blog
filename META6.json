@@ -1,0 +1,19 @@
+{
+    "name"        : "Glosador",
+    "version"     : "*",
+    "perl"        : "6.c",
+    "description" : "Bailador based blog engine",
+    "depends"     : [ "Bailador", "JSON::Fast", "Crypt::Bcrypt" ],
+    "tags"        : [ "Web", "HTTP", "Net" ],
+    "license"     : "MIT",
+    "provides" : {
+    },
+    "authors" : [
+        "Gabor Szabo"
+    ],
+    "support" : {
+        "bugtracker" : "https://github.com/szabgab/6blog/issues",
+        "source" : "git://github.com/szabgab/6blog.git"
+    },
+    "source-url"  : "git://github.com/szabgab/6blog.git"
+}
