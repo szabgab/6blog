@@ -134,3 +134,51 @@ Development
 ------------
 perl6 -I../Bailador/lib ../Bailador/bin/bailador bin/app.pl
 
+
+Minimal plan
+=============
+/register: email, username, password, full name  (no verification for now)
+Hash the password
+Store in database:
+   Email (lowercase, /^ <[a-z0-9.-]>\@\<[a-z0-9.-]>+$ , username (lowercase /^<[a-z0-9]>{3,}$/ ), hashed password,
+date_of_registration=now(), verified=false, (id auto generated)
+
+/account
+     Show username, email, allow editing full name
+     Only accessible if logged in
+
+/login
+  Username, password
+  Session expires in 20 days of inactivity
+   (user_id, last_seen time)
+
+/logout
+  Remove session
+/edit
+/edit/ID
+   Title
+   url (automatically derived from the title)
+   id (automatically generated on the first save)
+   Published True/False
+   Publish_date = when it was first published.
+   Abstract (will show in listing)
+   Body
+   Both can have some pre-defined html tags:
+      <a href=””></a>
+     <b></b>
+    <h2></h2>
+    Button to save
+    Button to Publish (alternatively, a button to unpublish)
+
+/users/USERNAME/url
+
+(logged in user should be able to see her unpublished posts as well, and they should have some clear indication that the page is
+not published)
+
+/   shows the abstract of the N=10 most recent posts
+
+
+Backup: cron-job off-site that will access the server every 10 minutes and copy the database file to the local disk with a timestamp
+in the filename.
+
+
