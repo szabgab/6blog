@@ -134,6 +134,10 @@ Development
 ------------
 perl6 -I../Bailador/lib ../Bailador/bin/bailador bin/app.pl
 
+To run the test (assuming Bailador is not installed, but can be found next to the root directory of this project)
+PERL6LIB=../Bailador/lib prove6 -l
+
+
 
 Minimal plan
 =============
