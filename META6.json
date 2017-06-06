@@ -1,12 +1,15 @@
 {
     "name"        : "Glosador",
-    "version"     : "*",
+    "version"     : "0.0.1",
     "perl"        : "6.c",
     "description" : "Bailador based blog engine",
     "depends"     : [ "Bailador", "JSON::Fast", "Crypt::Bcrypt" ],
     "tags"        : [ "Web", "HTTP", "Net" ],
     "license"     : "MIT",
     "provides" : {
+        "Glosador"                                : "lib/Glosador.pm",
+        "Glosador::API"                           : "lib/Glosador/API.pm",
+        "Glosador::Code"                          : "lib/Glosador/Code.pm"
     },
     "authors" : [
         "Gabor Szabo"
