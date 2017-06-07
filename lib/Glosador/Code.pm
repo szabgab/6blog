@@ -84,9 +84,13 @@ sub setup() is export {
     $dbh.dispose;
 }
 
-
-# vim: expandtab
-# vim: tabstop=4
+sub account(%params) is export {
+    # if logged in return the information about the user
+    # if not logged in return false
+    return {
+        status => "failed",
+    }
+}
 
 
 # vim: expandtab

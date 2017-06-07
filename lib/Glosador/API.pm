@@ -21,5 +21,11 @@ post '/login' => sub {
     return to-json login(request.params)
 }
 
+get '/account' => sub {
+    content_type 'application/json';
+    return to-json account(request.params)
+}
+
+
 # vim: expandtab
 # vim: tabstop=4

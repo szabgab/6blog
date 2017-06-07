@@ -7,7 +7,7 @@ use lib 'lib';
 use Glosador::API;
 use Glosador::Code;
 
-plan 5;
+plan 6;
 
 setup();
 
@@ -107,6 +107,20 @@ subtest {
     is %data<err>, '', 'stderr';
 }, 'incorrect user';
 
+
+subtest {
+    plan 3;
+
+    my %data = run-psgi-request('GET', '/account');
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       "status" => "failed",
+    };
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route GET /account';
+    is %data<err>, '', 'stderr';
+}, 'incorrect user';
 
 
 # vim: expandtab
