@@ -20,6 +20,7 @@ post '/login' => sub {
     my %res = login(request.params);
     #my %session = session();
     #%session
+    %res<id>:delete;
     content_type 'application/json';
     return to-json %res;
 }

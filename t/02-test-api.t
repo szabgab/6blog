@@ -100,13 +100,12 @@ subtest {
     my $html = %data<response>[2];
     my %json = from-json $html;
     is-deeply %json, {
-        :status("ok"),
-        :email("foo\@bar.com"),
-        :full_name("Foo Bar"),
-        :id(1),
-        :registered_date("now"),
-        :username("foobar"),
-        :verified("FALSE")
+        :status('ok'),
+        :email('foo@bar.com'),
+        :full_name('Foo Bar'),
+        :registered_date('now'),
+        :username('foobar'),
+        :verified('FALSE')
     };
     %data<response>[2] = '';
     is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /login';
