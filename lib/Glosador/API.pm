@@ -11,5 +11,10 @@ get '/' => sub {
     return to-json main();
 }
 
+post '/register' => sub {
+    content_type 'application/json';
+    return to-json register(request.params)
+}
+
 # vim: expandtab
 # vim: tabstop=4
