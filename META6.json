@@ -3,7 +3,7 @@
     "version"     : "0.0.1",
     "perl"        : "6.c",
     "description" : "Bailador based blog engine",
-    "depends"     : [ "Bailador", "JSON::Fast", "Crypt::Bcrypt" ],
+    "depends"     : [ "Bailador", "JSON::Fast", "Crypt::Bcrypt", "DBIish" ],
     "tags"        : [ "Web", "HTTP", "Net" ],
     "license"     : "MIT",
     "provides" : {
