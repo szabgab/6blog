@@ -16,5 +16,10 @@ post '/register' => sub {
     return to-json register(request.params)
 }
 
+post '/login' => sub {
+    content_type 'application/json';
+    return to-json login(request.params)
+}
+
 # vim: expandtab
 # vim: tabstop=4

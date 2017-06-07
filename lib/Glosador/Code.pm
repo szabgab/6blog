@@ -1,5 +1,6 @@
 use v6;
 use DBIish;
+use Crypt::Bcrypt;
 
 
 sub main() is export {
@@ -17,6 +18,36 @@ sub add_user($username, $full_name, $email, $password) {
     $sth.execute($username, $full_name, $email, $password, 'now');
 }
 
+sub login(%params) is export {
+    my $dbh = connect();
+    my $sth = $dbh.prepare('SELECT * FROM user WHERE username = ?');
+    $sth.execute(%params<username>);
+    
+    my @rows = $sth.allrows(:hash);
+    $sth.finish;
+    $dbh.dispose;
+
+    if @rows.elems > 1 {
+        die "we have a real problem here. (duplicate username)";
+    }
+    if @rows.elems == 0 {
+        # user not found
+        return {
+            status => 'failed',
+        }
+    }
+    if bcrypt-match(%params<password>, @rows[0]<password>) {
+        return {
+            status => 'ok',
+        }
+    } else {
+        return {
+            status => 'failed',
+        }
+    }
+}
+
+
 sub register(%params) is export {
     # TODO verify fields
     # hash password
@@ -25,7 +56,8 @@ sub register(%params) is export {
     my $full_name = %params<full_name>;
     my $email     = %params<email>;
     my $password  = %params<password>;
-    add_user($username, $full_name, $email, $password);
+    my $hashed_pw = bcrypt-hash($password);
+    add_user($username, $full_name, $email, $hashed_pw);
 
     return {
         status => 'ok',
