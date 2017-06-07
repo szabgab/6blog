@@ -20,10 +20,10 @@ sub add_user($username, $full_name, $email, $password) {
 
 sub login(%params) is export {
     my $dbh = connect();
-    my $sth = $dbh.prepare('SELECT * FROM user WHERE username = ?');
+    my $sth = $dbh.prepare('SELECT username, password FROM user WHERE username = ?');
     $sth.execute(%params<username>);
     
-    my @rows = $sth.allrows(:hash);
+    my @rows = $sth.allrows();
     $sth.finish;
     $dbh.dispose;
 
@@ -36,7 +36,7 @@ sub login(%params) is export {
             status => 'failed',
         }
     }
-    if bcrypt-match(%params<password>, @rows[0]<password>) {
+    if bcrypt-match(%params<password>, @rows[0][1]) {
         return {
             status => 'ok',
         }

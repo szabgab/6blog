@@ -7,7 +7,7 @@ use lib 'lib';
 use Glosador::API;
 use Glosador::Code;
 
-plan 2;
+plan 5;
 
 setup();
 
@@ -49,9 +49,64 @@ subtest {
        "id" => 42
     };
     %data<response>[2] = '';
-    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route GET /';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /register';
     is %data<err>, '', 'stderr';
-};
+}, 'register';
+
+subtest {
+    plan 3;
+    my %params = 
+        username   => 'foobar',
+        password   => 'bad',
+    ;
+
+    my %data = run-psgi-request('POST', '/login', flatten(%params));
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       "status" => "failed",
+    };
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /login';
+    is %data<err>, '', 'stderr';
+}, 'incorrect password';
+
+subtest {
+    plan 3;
+    my %params = 
+        username   => 'barfoo',
+        password   => 'secret',
+    ;
+
+    my %data = run-psgi-request('POST', '/login', flatten(%params));
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       "status" => "failed",
+    };
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /login';
+    is %data<err>, '', 'stderr';
+}, 'incorrect user';
+
+subtest {
+    plan 3;
+    my %params = 
+        username   => 'foobar',
+        password   => 'secret',
+    ;
+
+    my %data = run-psgi-request('POST', '/login', flatten(%params));
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       "status" => "ok",
+    };
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /login';
+    is %data<err>, '', 'stderr';
+}, 'incorrect user';
+
 
 
 # vim: expandtab
