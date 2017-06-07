@@ -17,8 +17,11 @@ post '/register' => sub {
 }
 
 post '/login' => sub {
+    my %res = login(request.params);
+    #my %session = session();
+    #%session
     content_type 'application/json';
-    return to-json login(request.params)
+    return to-json %res;
 }
 
 get '/account' => sub {
