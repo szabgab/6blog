@@ -25,6 +25,9 @@ subtest {
     is %data<err>, '', 'stderr';
 };
 
+sub flatten(%h) {
+    return %h.map({ (.key ~ '=' ~ .value) }).join('&');
+}
 
 subtest {
     plan 3;
@@ -34,9 +37,8 @@ subtest {
         password   => 'secret',
         full_name  => 'Foo Bar',
     ;
-    my $params = %params.map({ (.key ~ '=' ~ .value) }).join('&');
 
-    my %data = run-psgi-request('POST', '/register', $params);
+    my %data = run-psgi-request('POST', '/register', flatten(%params));
 
 #    diag %data.perl;
     my $html = %data<response>[2];
