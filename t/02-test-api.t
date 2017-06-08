@@ -7,7 +7,7 @@ use lib 'lib';
 use Glosador::API;
 use Glosador::Code;
 
-plan 7;
+plan 8;
 
 setup();
 my $cookie;
@@ -134,7 +134,7 @@ subtest {
     %data<response>[2] = '';
     is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route GET /account';
     is %data<err>, '', 'stderr';
-}, 'incorrect user';
+}, 'account without cookie';
 
 
 subtest {
@@ -153,7 +153,19 @@ subtest {
     %data<response>[2] = '';
     is-deeply %data<response>, [200, '', ''], 'route GET /account';
     is %data<err>, '', 'stderr';
-}, 'incorrect user';
+}, 'account with correct cookie';
+
+subtest {
+    my %data = run-psgi-request('GET', '/logout');
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       status    => 'failed',
+    };
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route GET /logout';
+    is %data<err>, '', 'stderr';
+}, 'logout without supplying a cookie'
 
 
 # vim: expandtab

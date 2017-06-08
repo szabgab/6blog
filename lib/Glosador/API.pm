@@ -34,10 +34,24 @@ get '/account' => sub {
     my $session;
     if %headers<COOKIE> {
         $session = session();
-        #return to-json { x => $session.perl };
     }
 
     return to-json account(request.params, $session)
+}
+
+get '/logout' => sub {
+    my %headers = request.headers;
+    content_type 'application/json';
+    my $session;
+    if %headers<COOKIE> {
+        $session = session();
+        #return to-json account(request.params, $session)
+    } else {
+        return to-json {
+            status => 'failed',
+        };
+    }
+
 }
 
 
