@@ -86,11 +86,27 @@ sub setup() is export {
     $dbh.dispose;
 }
 
-sub account(%params) is export {
+sub account(%params, $session) is export {
     # if logged in return the information about the user
     # if not logged in return false
-    return {
-        status => "failed",
+    if $session<id> {
+        my $dbh = connect();
+        my $sth = $dbh.prepare('SELECT * FROM user WHERE id=?');
+        $sth.execute($session<id>);
+        my %user = $sth.row(:hash);
+        $sth.finish;
+        $dbh.dispose;
+
+        return {
+            status    => "ok",
+            full_name => %user<full_name>,
+            email     => %user<email>,
+            username  => %user<username>,
+        }
+    } else {
+        return {
+            status => "failed",
+        }
     }
 }
 

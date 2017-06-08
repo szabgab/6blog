@@ -7,9 +7,10 @@ use lib 'lib';
 use Glosador::API;
 use Glosador::Code;
 
-plan 6;
+plan 7;
 
 setup();
+my $cookie;
 
 subtest {
     plan 4;
@@ -90,7 +91,7 @@ subtest {
 }, 'incorrect user';
 
 subtest {
-    plan 3;
+    plan 5;
     my %params = 
         username   => 'foobar',
         password   => 'secret',
@@ -108,7 +109,15 @@ subtest {
         :verified('FALSE')
     };
     %data<response>[2] = '';
-    is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route POST /login';
+    my %header = %data<response>[1];
+    %data<response>[1] = '';
+    $cookie = %header<Set-Cookie>;
+    like $cookie, rx/^bailador\=<[0..9a..z]>+\-\-<[0..9a..z]>+\;\sPath\=\//;
+    $cookie.=subst(/\;.*/, '');
+    diag $cookie;
+    is %header<Content-Type>, "application/json";
+
+    is-deeply %data<response>, [200, '', ''], 'route POST /login';
     is %data<err>, '', 'stderr';
 }, 'incorrect user';
 
@@ -124,6 +133,25 @@ subtest {
     };
     %data<response>[2] = '';
     is-deeply %data<response>, [200, ["Content-Type" => "application/json"], ''], 'route GET /account';
+    is %data<err>, '', 'stderr';
+}, 'incorrect user';
+
+
+subtest {
+    plan 3;
+
+    my %data = run-psgi-request('GET', '/account', :http_cookie($cookie));
+    my $html = %data<response>[2];
+    my %json = from-json $html;
+    is-deeply %json, {
+       status    => 'ok',
+       full_name => 'Foo Bar',
+       email     => 'foo@bar.com',
+       username  => 'foobar',
+    };
+    %data<response>[1] = '';
+    %data<response>[2] = '';
+    is-deeply %data<response>, [200, '', ''], 'route GET /account';
     is %data<err>, '', 'stderr';
 }, 'incorrect user';
 
